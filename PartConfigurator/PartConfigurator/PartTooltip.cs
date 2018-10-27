@@ -118,6 +118,14 @@ namespace PartConfigurator
                         {
                             part.Modules[i].Fields[j].guiActiveEditor = false;
                         }
+                        for (int k = 0; k < part.Modules[i].Events.Count; k++)
+                        {
+                            if (part.Modules[i].Events[k] != null)
+                            {
+                                part.Modules[i].Events[k].guiActiveEditor = false;
+                                part.Modules[i].Events[k].active = false;
+                            }
+                        }
                     }
                 }
             }
@@ -613,6 +621,8 @@ namespace PartConfigurator
             }
             foreach (PartModule pm in part.Modules)
             {
+                if (!pm.enabled || !pm.isEnabled) continue;
+
                 if (pm is ModuleEngines)
                 {
                     ModuleEngines me = (ModuleEngines)pm;
@@ -634,7 +644,7 @@ namespace PartConfigurator
                           "<b>Thrust:</b> " + thrustASL.ToString("F1") + " kN, <b>ISP:</b> " + ispASL.ToString("F0") + " (ASL)\n";
                     }
                 }
-                if (pm is ModuleB9PartInfo || pm is ModuleB9PartSwitch || pm is ModulePartVariants)
+                else if (pm is ModuleB9PartInfo || pm is ModuleB9PartSwitch || pm is ModulePartVariants)
                 {
                     continue;
                 }
